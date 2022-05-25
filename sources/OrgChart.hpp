@@ -116,11 +116,6 @@ class OrgChart {
 
 
 	
-
-	//-------------------------------------------------------------------
-	// iterator related code:
-	// inner class and methods that return instances of it)
-	//-------------------------------------------------------------------
 	class iterator {
 
 	  private:
@@ -176,13 +171,7 @@ class OrgChart {
 			return *this;
 		}
 
-		// i++;
-		// Usually iterators are passed by value and not by const& as they are small.
-		 iterator operator++(int) {
-			iterator tmp= *this;
-			root= root->son;
-			return tmp;
-		}
+
 
 		bool operator==(const iterator& rhs) const {
 			return root == rhs.root;
@@ -206,13 +195,8 @@ class OrgChart {
 		pre_iterator(employee* ptr = nullptr)
 			: root(ptr) {
 		}
-		// Note that the method is const as this operator does not
-		// allow changing of the iterator.
-		// Note that it returns T& as it allows to change what it points to.
-		// A const_iterator class will return const T&
-		// and the method will still be const
+
 		 string operator*() const {
-			//return *pointer_to_current_node;
 			return this->root->Name;
 		}
 		
@@ -259,12 +243,7 @@ class OrgChart {
 		}
 
 		// i++;
-		// Usually iterators are passed by value and not by const& as they are small.
-		 pre_iterator operator++(int) {
-			pre_iterator tmp= *this;
-			root= root->son;
-			return tmp;
-		}
+
 			employee*  operator->() 
 			{
 				return this->root;
@@ -320,11 +299,7 @@ class reverse_iterator {
 			 }
 			ce=ptr;
 		}
-		// Note that the method is const as this operator does not
-		// allow changing of the iterator.
-		// Note that it returns T& as it allows to change what it points to.
-		// A const_iterator class will return const T&
-		// and the method will still be const
+
 		 string operator*() const {
 			//return *pointer_to_current_node;
 			return this->root->Name;
@@ -403,11 +378,7 @@ class reverse_iterator {
 		}
 		// i++;
 		// Usually iterators are passed by value and not by const& as they are small.
-		reverse_iterator operator++(int) {
-			reverse_iterator tmp= *this;
-			root= root->son;
-			return tmp;
-		}
+
 
 		bool operator==(const reverse_iterator& rhs) const {
 			return root == rhs.root;
@@ -426,7 +397,6 @@ class reverse_iterator {
 
 
 	 iterator  begin()const {
-		// return &(m_first->m_value); 
 		return iterator{m_first};
 	}
 	
@@ -499,6 +469,5 @@ class reverse_iterator {
 
 
 }
-
 
 
