@@ -117,146 +117,38 @@ class OrgChart {
 
 	
 	class iterator {
-
-	  private:
-	  vector<employee*> level;
-		//employee* pointer_to_current_node;
+	  	private:
+		vector<employee*> level;
 		employee *root;
 
 	public:
 		iterator(employee* ptr = nullptr)
-			 {
+		{
 			root=ptr;
 			level.push_back(root);
 		}
-
-
-		string operator*()  {
-
- 			return level[0]->Name;
-		}
-
-
-
+		string operator*();
 		// ++i;
-		iterator& operator++() {
-			if (!level.empty())
-			{
-				employee *e=level[0];
-				if (e->son!=nullptr)
-				{
-				employee * son=e->son;
-				level.push_back(son);
-				while (son->bro!=nullptr)
-				{
-					level.push_back(son->bro);
-					son=son->bro;
-				}
-				}
-				level.erase(level.begin());
-				if(level.empty())
-				{
-					root=nullptr;
-				}else{
-
-				root=level[0];
-				}
-			}else
-			{
-				 root=nullptr;
-			}
-
-				
-			
-			return *this;
-		}
-
-
-
-		bool operator==(const iterator& rhs) const {
-			return root == rhs.root;
-		}
-
-		bool operator!=(const iterator& rhs) const {
-			return root != rhs.root;
-		}
-			employee*  operator->() 
-			{
-				return this->root;
-			}
-  	};  // END OF CLASS ITERATOR
+		iterator& operator++();
+		bool operator==(const iterator& rhs) const ;
+		bool operator!=(const iterator& rhs) const ;
+		employee*  operator->() ;
+  		};  // END OF CLASS ITERATOR
 
 	class pre_iterator {
-
-	  private:
-		employee* root;
-	public:
-
-		pre_iterator(employee* ptr = nullptr)
-			: root(ptr) {
-		}
-
-		 string operator*() const {
-			return this->root->Name;
-		}
-		
-		// ++i;
-		pre_iterator& operator++() {
-			if (root->son!=nullptr)
-			{
-				root=root->son;
-				return *this;
-
-			} if (root->bro!=nullptr)
-			{
-				root=root->bro;
-				return *this;
-
-			} if (root->dad!=nullptr)	
-			{
-
-				root=root->dad;
-				while (root->bro==nullptr)
-				{
-					if (root->h>1){
-					root=root->dad;
-					}else
-					{
-						root=nullptr;
-						return *this;
-					}
-				}
-																										
-
-				root=root->bro;
-				return *this;
-
-			}
-			if (root->dad==nullptr)
-			{
-		
-			
-			root=nullptr;
-			return *this;
-			}
-			return *this;
-		}
-
-		// i++;
-
-			employee*  operator->() 
-			{
-				return this->root;
+		 private:
+			employee* root;
+		public:
+			pre_iterator(employee* ptr = nullptr)
+				: root(ptr) {
 			}
 
-		bool operator==(const pre_iterator& rhs) const {
-			return root == rhs.root;
-		}
+			string operator*() const;
+			pre_iterator& operator++();		// ++i;
+			employee*  operator->();
+			bool operator==(const pre_iterator& rhs) const;
 
-		bool operator!=(const pre_iterator& rhs) const {
-			return root != rhs.root;
-
-		}
+			bool operator!=(const pre_iterator& rhs) const;
 
 	};  // END OF CLASS pre_iterator
 class reverse_iterator {
@@ -300,100 +192,20 @@ class reverse_iterator {
 			ce=ptr;
 		}
 
-		 string operator*() const {
-			//return *pointer_to_current_node;
-			return this->root->Name;
-		}
+		 string operator*() const;
 
 		
 		// ++i;
-		reverse_iterator& operator++() {
-			if (root->h==_h&&_h>1)
-			{
-				if (root->bro!=nullptr)
-				{
-					root=root->bro;
-					return *this;
-				}
-				
-					root=root->dad;
-					while (root->bro==nullptr&&root->h>1)
-					{
-						root=root->dad;
-					}
-					if (root->h>1)
-					{
-						root=root->bro;
-					}
-					else
-					{
-						_h--;
-						if (_h==1)
-						{
-							root=ce;
-							return *this;
-						}
-						
-					}
-					
-					
-				
-				
-			}
-			if (_h==1)
-			{
-				root=nullptr;
-				return *this;
-			}
-			while (this->root->h<_h)
-			{
-	
-			if (root->son!=nullptr)
-			{
-				root=root->son;
-
-			}else if (root->bro!=nullptr)
-			{
-				root=root->bro;
-			}else if (root->dad!=nullptr)	
-			{
-				root=root->dad;
-				while (root->bro==nullptr&&root!=ce)
-				{
-					root=root->dad;
-				}
-				
-				if (root==ce)
-				{
-					_h--;
-				}
-				else
-				{
-					root=root->bro;
-				}
-			}				
-			}
-
-			return *this;
-		}
-		// i++;
-		// Usually iterators are passed by value and not by const& as they are small.
-
-
-		bool operator==(const reverse_iterator& rhs) const {
-			return root == rhs.root;
-		}
-
-		bool operator!=(const reverse_iterator& rhs) const {
-			return root != rhs.root;
-
-		}
-		employee*  operator->() 
-		{
-			return this->root;
-		}
+		reverse_iterator& operator++();
 		
-	};  // END OF CLASS const_iterator
+
+		bool operator==(const reverse_iterator& rhs) const ;
+		
+
+		bool operator!=(const reverse_iterator& rhs) const ;
+		employee*  operator->() ;
+		
+	};  // END OF CLASS reverse_iterator
 
 
 	 iterator  begin()const {
@@ -404,9 +216,8 @@ class reverse_iterator {
 		// return nullptr; 
 		return iterator{nullptr};
 	}
-	//////////
 	
-	OrgChart::pre_iterator    begin_preorder()const	
+	pre_iterator    begin_preorder()const	
     {
       if (this->getRoot()==nullptr)
       {
@@ -414,7 +225,7 @@ class reverse_iterator {
       }
         return pre_iterator{getRoot()};
       }
-		 OrgChart::pre_iterator  end_preorder()const
+		 pre_iterator  end_preorder()const
 		 {
 			if (this->getRoot()==nullptr)
       	{
@@ -423,7 +234,7 @@ class reverse_iterator {
       
           return pre_iterator{nullptr};
 		 }
-	    OrgChart::iterator  begin_level_order()const
+	    iterator  begin_level_order()const
 		{
     
 	    if (this->getRoot()==nullptr)
